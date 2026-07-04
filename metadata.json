@@ -1,0 +1,8 @@
+{
+  "name": "Copy of Remix: Copy of Gym Platform",
+  "description": "Multi-tenant Gym Management Platform featuring Super Admin, Gym Admin, Trainer, and Member portals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
