@@ -68,6 +68,7 @@ export default function DashboardLayout({
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
   const [editedName, setEditedName] = useState('');
   const [editedEmail, setEditedEmail] = useState('');
   const [editedAvatar, setEditedAvatar] = useState('');
@@ -315,19 +316,12 @@ export default function DashboardLayout({
           </div>
         </div>
 
-        {/* Sidebar Footer with Setting & Help, Mode Switcher */}
+        {/* Sidebar Footer with Setting, Mode Switcher */}
         <div className="p-4 border-t border-slate-50 shrink-0 space-y-3 bg-white">
-          <div className="flex items-center justify-between px-1">
-            <button
-              onClick={() => onPageChange('guide')}
-              className="flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-all cursor-pointer"
-            >
-              <HelpCircle className="w-4 h-4 text-slate-400 shrink-0" />
-              <span>Help</span>
-            </button>
+          <div className="flex items-center justify-center px-1">
             <button
               onClick={handleOpenEditProfile}
-              className="flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-all cursor-pointer"
+              className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-all cursor-pointer"
             >
               <Settings className="w-4 h-4 text-slate-400 shrink-0" />
               <span>Setting</span>
@@ -341,7 +335,7 @@ export default function DashboardLayout({
               <span>Light</span>
             </button>
             <button 
-              onClick={() => alert("Dark mode requires FitnessUp Premium. You are currently in the standard Light mode layout.")}
+              onClick={() => setShowComingSoon(true)}
               className="flex-1 flex items-center justify-center py-1.5 rounded-full text-slate-400 hover:text-slate-600 cursor-pointer text-[10px] font-bold gap-1"
             >
               <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
@@ -736,24 +730,14 @@ export default function DashboardLayout({
                     </button>
                   </div>
 
-                  {/* Mobile Help & Setting Toggles */}
-                  <div className="border-t border-slate-200/60 pt-3 flex items-center justify-between px-1">
-                    <button
-                      onClick={() => {
-                        setIsSidebarOpen(false);
-                        onPageChange('guide');
-                      }}
-                      className="flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-all cursor-pointer"
-                    >
-                      <HelpCircle className="w-4 h-4 text-slate-400 shrink-0" />
-                      <span>Help</span>
-                    </button>
+                  {/* Mobile Setting Toggle */}
+                  <div className="border-t border-slate-200/60 pt-3 flex items-center justify-center px-1">
                     <button
                       onClick={() => {
                         setIsSidebarOpen(false);
                         handleOpenEditProfile();
                       }}
-                      className="flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-all cursor-pointer"
+                      className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-all cursor-pointer"
                     >
                       <Settings className="w-4 h-4 text-slate-400 shrink-0" />
                       <span>Setting</span>
@@ -767,7 +751,7 @@ export default function DashboardLayout({
                       <span>Light</span>
                     </button>
                     <button 
-                      onClick={() => alert("Dark mode requires FitnessUp Premium. You are currently in the standard Light mode layout.")}
+                      onClick={() => setShowComingSoon(true)}
                       className="flex-1 flex items-center justify-center py-1 rounded-full text-slate-500 hover:text-slate-700 cursor-pointer text-[10px] font-bold gap-1"
                     >
                       <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
@@ -882,6 +866,45 @@ export default function DashboardLayout({
                   </button>
                 </div>
               </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Coming Soon Custom Modal */}
+      <AnimatePresence>
+        {showComingSoon && (
+          <div className="fixed inset-0 z-55 flex items-center justify-center p-4">
+            {/* Modal Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowComingSoon(false)}
+              className="absolute inset-0 bg-slate-950/40 backdrop-blur-xs cursor-pointer"
+            />
+
+            {/* Modal Card */}
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 15 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 15 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="bg-white border border-slate-100 rounded-2xl shadow-2xl max-w-sm w-full relative z-10 overflow-hidden text-slate-800 p-6 flex flex-col items-center text-center"
+            >
+              <div className="w-12 h-12 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center mb-4">
+                <Sparkles className="w-6 h-6 text-amber-500 animate-pulse" />
+              </div>
+              <h3 className="text-base font-bold text-slate-900 tracking-tight">Coming Soon!</h3>
+              <p className="mt-2 text-xs text-slate-500 leading-relaxed">
+                The highly anticipated Dark Mode layout is currently in active development for the premium edition of FitnessUp. Stay tuned!
+              </p>
+              <button
+                onClick={() => setShowComingSoon(false)}
+                className="mt-5 w-full py-2 px-4 text-xs font-bold rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition-all cursor-pointer shadow-xs active:scale-95"
+              >
+                Got it
+              </button>
             </motion.div>
           </div>
         )}
