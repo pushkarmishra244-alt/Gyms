@@ -211,12 +211,12 @@ export default function SuperAdminDashboard({
   return (
     <div className="space-y-6">
       {/* SaaS Platform Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-display font-semibold tracking-tight text-slate-900">SaaS Platform Cockpit</h2>
           <p className="text-slate-500 text-sm">Welcome back, {currentUser.name}. Monitor multi-tenant operations, billing tiers, and system activity logs.</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button 
             onClick={() => setActiveTab('gyms')}
             className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all ${activeTab === 'gyms' ? 'bg-indigo-600 text-white shadow-sm' : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'}`}

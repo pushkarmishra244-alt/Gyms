@@ -442,7 +442,7 @@ export default function GymOwnerDashboard({
   return (
     <div className="space-y-6">
       {/* Gym Owner Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <img 
             src={gym.logoUrl || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=120"} 

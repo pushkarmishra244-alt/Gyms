@@ -345,7 +345,7 @@ export default function MemberPortal({
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/95 to-slate-950/30 z-0 hidden md:block" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-transparent z-0 md:hidden" />
         
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="relative z-10 flex flex-col xl:flex-row xl:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
               <Zap className="w-3.5 h-3.5" /> Core Member Portal

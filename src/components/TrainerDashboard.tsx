@@ -264,7 +264,7 @@ export default function TrainerDashboard({
   return (
     <div className="space-y-6">
       {/* Trainer Profile Overview Banner */}
-      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-white rounded-2xl border border-slate-100 p-6 shadow-xs flex flex-col xl:flex-row xl:items-center justify-between gap-6">
         <div className="flex items-center gap-4">
           <img 
             src={trainer.id === 'user_trainer_sarah' ? "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120" : "https://api.dicebear.com/7.x/avataaars/svg?seed=sarah"} 
@@ -284,7 +284,7 @@ export default function TrainerDashboard({
         </div>
 
         {/* Navigation Selector */}
-        <div className="flex flex-wrap items-center gap-2 bg-slate-100/80 p-1 border border-slate-200 rounded-lg text-xs font-semibold shrink-0 self-start md:self-auto">
+        <div className="flex flex-wrap items-center gap-2 bg-slate-100/80 p-1 border border-slate-200 rounded-lg text-xs font-semibold shrink-0 self-start xl:self-auto">
           <button 
             onClick={() => setActiveTab('clients')}
             className={`px-3 py-1.5 rounded-md transition-colors ${activeTab === 'clients' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500 hover:text-slate-800'}`}
