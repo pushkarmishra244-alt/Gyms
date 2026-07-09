@@ -694,68 +694,70 @@ export default function MemberPortal({
             </div>
 
             {/* Timeline Blocks */}
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-              {[
-                { id: 'class_cycling', name: 'Cycling', category: 'Cardio', style: 'border-emerald-100 bg-emerald-500/5 hover:bg-emerald-500/10 text-emerald-700', badgeStyle: 'bg-emerald-100 text-emerald-800' },
-                { id: 'class_bodybuilding', name: 'Bodybuilding', category: 'Strength', style: 'border-purple-100 bg-purple-500/5 hover:bg-purple-500/10 text-purple-700', badgeStyle: 'bg-purple-100 text-purple-800' },
-                { id: 'class_zumba', name: 'Zumba', category: 'Dance', style: 'border-amber-100 bg-amber-500/5 hover:bg-amber-500/10 text-amber-700', badgeStyle: 'bg-amber-100 text-amber-800' },
-                { id: 'class_swimming', name: 'Swimming', category: 'Endurance', style: 'border-teal-100 bg-teal-500/5 hover:bg-teal-500/10 text-teal-700', badgeStyle: 'bg-teal-100 text-teal-800' },
-                { id: 'class_trx', name: 'TRX training', category: 'Suspension', style: 'border-sky-100 bg-sky-500/5 hover:bg-sky-500/10 text-sky-700', badgeStyle: 'bg-sky-100 text-sky-800' }
-              ].map(block => {
-                // Find matching live class from state, or auto create if missing
-                const liveClass = classes.find(c => c.id === block.id) || {
-                  id: block.id,
-                  name: block.id === 'class_cycling' ? 'Cardio Cycling Spin' : block.id === 'class_bodybuilding' ? 'Ultimate Bodybuilding' : block.id === 'class_zumba' ? 'Rhythm Zumba Dance' : block.id === 'class_swimming' ? 'Endurance Swimming Laps' : 'Suspension TRX Training',
-                  time: block.id === 'class_cycling' ? '09:00 AM - 10:15 AM' : block.id === 'class_bodybuilding' ? '11:00 AM - 12:30 PM' : block.id === 'class_zumba' ? '02:00 PM - 03:00 PM' : block.id === 'class_swimming' ? '04:30 PM - 05:45 PM' : '07:00 PM - 08:15 PM',
-                  trainerName: block.id === 'class_cycling' || block.id === 'class_zumba' ? 'Sarah Jenkins' : 'Mike Tyson-Stone',
-                  capacity: 15,
-                  bookedCount: block.id === 'class_cycling' ? 10 : block.id === 'class_bodybuilding' ? 8 : block.id === 'class_zumba' ? 18 : block.id === 'class_swimming' ? 4 : 6
-                };
+            <div className="overflow-x-auto pb-2 -mx-2 px-2 scrollbar-none md:scrollbar-thin">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:min-w-[850px] xl:min-w-0">
+                {[
+                  { id: 'class_cycling', name: 'Cycling', category: 'Cardio', style: 'border-emerald-100 bg-emerald-500/5 hover:bg-emerald-500/10 text-emerald-700', badgeStyle: 'bg-emerald-100 text-emerald-800' },
+                  { id: 'class_bodybuilding', name: 'Bodybuilding', category: 'Strength', style: 'border-purple-100 bg-purple-500/5 hover:bg-purple-500/10 text-purple-700', badgeStyle: 'bg-purple-100 text-purple-800' },
+                  { id: 'class_zumba', name: 'Zumba', category: 'Dance', style: 'border-amber-100 bg-amber-500/5 hover:bg-amber-500/10 text-amber-700', badgeStyle: 'bg-amber-100 text-amber-800' },
+                  { id: 'class_swimming', name: 'Swimming', category: 'Endurance', style: 'border-teal-100 bg-teal-500/5 hover:bg-teal-500/10 text-teal-700', badgeStyle: 'bg-teal-100 text-teal-800' },
+                  { id: 'class_trx', name: 'TRX training', category: 'Suspension', style: 'border-sky-100 bg-sky-500/5 hover:bg-sky-500/10 text-sky-700', badgeStyle: 'bg-sky-100 text-sky-800' }
+                ].map(block => {
+                  // Find matching live class from state, or auto create if missing
+                  const liveClass = classes.find(c => c.id === block.id) || {
+                    id: block.id,
+                    name: block.id === 'class_cycling' ? 'Cardio Cycling Spin' : block.id === 'class_bodybuilding' ? 'Ultimate Bodybuilding' : block.id === 'class_zumba' ? 'Rhythm Zumba Dance' : block.id === 'class_swimming' ? 'Endurance Swimming Laps' : 'Suspension TRX Training',
+                    time: block.id === 'class_cycling' ? '09:00 AM - 10:15 AM' : block.id === 'class_bodybuilding' ? '11:00 AM - 12:30 PM' : block.id === 'class_zumba' ? '02:00 PM - 03:00 PM' : block.id === 'class_swimming' ? '04:30 PM - 05:45 PM' : '07:00 PM - 08:15 PM',
+                    trainerName: block.id === 'class_cycling' || block.id === 'class_zumba' ? 'Sarah Jenkins' : 'Mike Tyson-Stone',
+                    capacity: 15,
+                    bookedCount: block.id === 'class_cycling' ? 10 : block.id === 'class_bodybuilding' ? 8 : block.id === 'class_zumba' ? 18 : block.id === 'class_swimming' ? 4 : 6
+                  };
 
-                return (
-                  <div 
-                    key={block.id}
-                    onClick={() => openClassEditModal(liveClass as FitnessClass)}
-                    className={`p-4 rounded-xl border flex flex-col justify-between h-48 transition-all cursor-pointer transform hover:-translate-y-1 ${block.style}`}
-                  >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${block.badgeStyle}`}>
-                          {block.category}
-                        </span>
-                        <span className="text-[10px] text-slate-500 font-medium">
-                          {liveClass.id === 'class_cycling' ? 'Salon 1' : liveClass.id === 'class_bodybuilding' ? 'Salon 2' : 'Studio B'}
-                        </span>
+                  return (
+                    <div 
+                      key={block.id}
+                      onClick={() => openClassEditModal(liveClass as FitnessClass)}
+                      className={`p-4 rounded-xl border flex flex-col justify-between h-48 transition-all cursor-pointer transform hover:-translate-y-1 ${block.style}`}
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${block.badgeStyle}`}>
+                            {block.category}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-medium">
+                            {liveClass.id === 'class_cycling' ? 'Salon 1' : liveClass.id === 'class_bodybuilding' ? 'Salon 2' : 'Studio B'}
+                          </span>
+                        </div>
+                        
+                        <h4 className="font-display font-extrabold text-xs tracking-tight text-slate-800">
+                          {liveClass.name}
+                        </h4>
+                        <p className="text-[10px] text-slate-500 font-semibold font-mono">
+                          {liveClass.time}
+                        </p>
                       </div>
-                      
-                      <h4 className="font-display font-extrabold text-xs tracking-tight text-slate-800">
-                        {liveClass.name}
-                      </h4>
-                      <p className="text-[10px] text-slate-500 font-semibold font-mono">
-                        {liveClass.time}
-                      </p>
-                    </div>
 
-                    <div className="pt-2 border-t border-slate-200/40 flex flex-col gap-1">
-                      <div className="flex items-center gap-1">
-                        <User className="w-3 h-3 text-slate-400" />
-                        <span className="text-[10px] font-medium text-slate-600 truncate">
-                          {liveClass.trainerName}
+                      <div className="pt-2 border-t border-slate-200/40 flex flex-col gap-1">
+                        <div className="flex items-center gap-1">
+                          <User className="w-3 h-3 text-slate-400" />
+                          <span className="text-[10px] font-medium text-slate-600 truncate">
+                            {liveClass.trainerName}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between text-[9px] text-slate-500">
+                          <span>Booked Capacity:</span>
+                          <span className="font-bold font-mono text-slate-700">
+                            {liveClass.bookedCount}/{liveClass.capacity}
+                          </span>
+                        </div>
+                        <span className="mt-1 text-[9px] font-bold text-indigo-600 flex items-center gap-0.5 group-hover:underline">
+                          Edit Schedule &rarr;
                         </span>
                       </div>
-                      <div className="flex items-center justify-between text-[9px] text-slate-500">
-                        <span>Booked Capacity:</span>
-                        <span className="font-bold font-mono text-slate-700">
-                          {liveClass.bookedCount}/{liveClass.capacity}
-                        </span>
-                      </div>
-                      <span className="mt-1 text-[9px] font-bold text-indigo-600 flex items-center gap-0.5 group-hover:underline">
-                        Edit Schedule &rarr;
-                      </span>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

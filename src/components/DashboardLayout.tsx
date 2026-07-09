@@ -192,10 +192,10 @@ export default function DashboardLayout({
             : 'text-amber-500');
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-[#f8fafc] font-sans text-slate-900 antialiased relative overflow-x-hidden">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-[#f8fafc] font-sans text-slate-900 antialiased relative overflow-x-hidden">
       
       {/* 1. PERSISTENT LEFT SIDEBAR - DESKTOP */}
-      <aside className="hidden md:flex flex-col w-64 fixed inset-y-0 left-0 bg-white border-r border-slate-100 z-30 shrink-0">
+      <aside className="hidden lg:flex flex-col w-64 fixed inset-y-0 left-0 bg-white border-r border-slate-100 z-30 shrink-0">
         {/* Brand Header with Waves/Concentric Icon */}
         <div className="flex items-center gap-3 px-6 py-6 border-b border-slate-50 mb-4 shrink-0">
           <div className="w-9 h-9 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-base shrink-0 relative overflow-hidden">
@@ -345,8 +345,8 @@ export default function DashboardLayout({
         </div>
       </aside>
 
-      {/* 2. MOBILE TOP NAVBAR (Only shown on < md screens) */}
-      <header className="md:hidden flex items-center justify-between px-6 py-4 bg-white border-b border-slate-100 sticky top-0 z-40 w-full shrink-0">
+      {/* 2. MOBILE TOP NAVBAR (Only shown on < lg screens) */}
+      <header className="lg:hidden flex items-center justify-between px-6 py-4 bg-white border-b border-slate-100 sticky top-0 z-40 w-full shrink-0">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-sm relative overflow-hidden">
             <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
@@ -366,13 +366,13 @@ export default function DashboardLayout({
       </header>
 
       {/* 3. MAIN WORKSPACE AREA */}
-      <div className="flex-1 flex flex-col md:pl-64 min-w-0">
+      <div className="flex-1 flex flex-col lg:pl-64 min-w-0">
         
         {/* Layout Split Screen: Content and optional Right Sidebar */}
         <div className="flex-1 flex flex-col xl:flex-row">
           
           {/* CENTER PANEL CONTENT */}
-          <main className="flex-1 p-6 md:p-8 min-w-0 flex flex-col justify-between">
+          <main className="flex-1 p-6 lg:p-8 min-w-0 flex flex-col justify-between">
             <div className="flex-1">
               {children}
             </div>
