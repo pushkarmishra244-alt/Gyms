@@ -31,7 +31,9 @@ export default class ErrorBoundary extends React.Component<Props, State> {
 
   private handleReset = () => {
     try {
-      localStorage.clear();
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.clear();
+      }
     } catch (e) {
       console.error(e);
     }

@@ -626,24 +626,43 @@ export const DEFAULT_INVOICES: Invoice[] = [
 
 
 /**
- * Active local database engine using localStorage
+ * Active local database engine using localStorage with automatic in-memory fallback
  */
 class LocalDB {
-  private get<T>(key: string, defaultValue: T): T {
+  private memoryStorage: Record<string, string> = {};
+
+  private isStorageAvailable(): boolean {
     try {
-      const value = localStorage.getItem(key);
-      return value ? JSON.parse(value) : defaultValue;
+      return typeof window !== 'undefined' && 'localStorage' in window && window.localStorage !== null;
     } catch {
-      return defaultValue;
+      return false;
     }
   }
 
-  private set<T>(key: string, value: T): void {
+  private get<T>(key: string, defaultValue: T): T {
     try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
-      console.error("Local Storage write failed", e);
+      if (this.isStorageAvailable()) {
+        const value = window.localStorage.getItem(key);
+        return value ? JSON.parse(value) : defaultValue;
+      }
+    } catch {
+      // ignore and fallback
     }
+    const memVal = this.memoryStorage[key];
+    return memVal ? JSON.parse(memVal) : defaultValue;
+  }
+
+  private set<T>(key: string, value: T): void {
+    const stringified = JSON.stringify(value);
+    try {
+      if (this.isStorageAvailable()) {
+        window.localStorage.setItem(key, stringified);
+        return;
+      }
+    } catch (e) {
+      console.error("Local Storage write failed, falling back to memory", e);
+    }
+    this.memoryStorage[key] = stringified;
   }
 
   get gyms(): Gym[] {
@@ -758,21 +777,24 @@ class LocalDB {
   }
 
   resetAll() {
+    this.memoryStorage = {};
     try {
-      localStorage.removeItem('gyms');
-      localStorage.removeItem('subscriptionPlans');
-      localStorage.removeItem('membershipPlans');
-      localStorage.removeItem('users');
-      localStorage.removeItem('trainers');
-      localStorage.removeItem('members');
-      localStorage.removeItem('classes');
-      localStorage.removeItem('bookings');
-      localStorage.removeItem('attendance');
-      localStorage.removeItem('workoutPlans');
-      localStorage.removeItem('nutritionPlans');
-      localStorage.removeItem('progress');
-      localStorage.removeItem('invoices');
-      localStorage.removeItem('logs');
+      if (this.isStorageAvailable()) {
+        window.localStorage.removeItem('gyms');
+        window.localStorage.removeItem('subscriptionPlans');
+        window.localStorage.removeItem('membershipPlans');
+        window.localStorage.removeItem('users');
+        window.localStorage.removeItem('trainers');
+        window.localStorage.removeItem('members');
+        window.localStorage.removeItem('classes');
+        window.localStorage.removeItem('bookings');
+        window.localStorage.removeItem('attendance');
+        window.localStorage.removeItem('workoutPlans');
+        window.localStorage.removeItem('nutritionPlans');
+        window.localStorage.removeItem('progress');
+        window.localStorage.removeItem('invoices');
+        window.localStorage.removeItem('logs');
+      }
     } catch (e) {
       console.error("Local Storage reset failed", e);
     }

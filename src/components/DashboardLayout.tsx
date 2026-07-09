@@ -648,11 +648,14 @@ export default function DashboardLayout({
                 {/* Mobile Drawer Header */}
                 <div className="p-5 border-b border-slate-50 flex items-center justify-between bg-slate-50/50 shrink-0">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center text-white font-extrabold text-sm">
-                      <Flame className="w-4.5 h-4.5 text-white" />
+                    <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white font-black text-sm relative overflow-hidden">
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                        <circle cx="12" cy="12" r="9" stroke="currentColor" />
+                        <circle cx="12" cy="12" r="4" fill="currentColor" />
+                      </svg>
                     </div>
                     <div>
-                      <span className="font-bold text-slate-800 text-sm tracking-tight leading-none block">Fireup</span>
+                      <span className="font-bold text-slate-800 text-sm tracking-tight leading-none block">FitnessUp</span>
                       <span className="text-[9px] text-slate-400 font-medium block mt-0.5">Workspace</span>
                     </div>
                   </div>
@@ -730,6 +733,45 @@ export default function DashboardLayout({
                       className="py-1.5 px-2 bg-rose-50 border border-rose-100 text-rose-600 rounded-lg text-[10px] font-bold text-center transition-all cursor-pointer"
                     >
                       Reset
+                    </button>
+                  </div>
+
+                  {/* Mobile Help & Setting Toggles */}
+                  <div className="border-t border-slate-200/60 pt-3 flex items-center justify-between px-1">
+                    <button
+                      onClick={() => {
+                        setIsSidebarOpen(false);
+                        onPageChange('guide');
+                      }}
+                      className="flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-all cursor-pointer"
+                    >
+                      <HelpCircle className="w-4 h-4 text-slate-400 shrink-0" />
+                      <span>Help</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsSidebarOpen(false);
+                        handleOpenEditProfile();
+                      }}
+                      className="flex items-center gap-2 text-xs font-semibold text-slate-500 hover:text-slate-900 transition-all cursor-pointer"
+                    >
+                      <Settings className="w-4 h-4 text-slate-400 shrink-0" />
+                      <span>Setting</span>
+                    </button>
+                  </div>
+
+                  {/* Mobile Light/Dark Switcher */}
+                  <div className="bg-slate-200/50 border border-slate-200/80 rounded-full p-1 flex items-center justify-between w-full">
+                    <button className="flex-1 flex items-center justify-center py-1 rounded-full bg-white text-slate-800 shadow-3xs cursor-pointer text-[10px] font-bold gap-1">
+                      <svg className="w-3 h-3 text-amber-500" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 103.64 5.05l-.707.707a1 1 0 001.414 1.414l.707-.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" clipRule="evenodd" /></svg>
+                      <span>Light</span>
+                    </button>
+                    <button 
+                      onClick={() => alert("Dark mode requires FitnessUp Premium. You are currently in the standard Light mode layout.")}
+                      className="flex-1 flex items-center justify-center py-1 rounded-full text-slate-500 hover:text-slate-700 cursor-pointer text-[10px] font-bold gap-1"
+                    >
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" /></svg>
+                      <span>Dark</span>
                     </button>
                   </div>
                 </div>

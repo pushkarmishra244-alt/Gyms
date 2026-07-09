@@ -328,8 +328,24 @@ export default function MemberPortal({
   return (
     <div className="space-y-6">
       {/* Member Welcome Banner */}
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-2xl p-6 md:p-8 shadow-md">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="relative overflow-hidden bg-slate-950 text-white rounded-2xl p-6 md:p-8 shadow-md">
+        {/* Clearly visible side image for desktop layout */}
+        <div className="absolute inset-y-0 right-0 w-full md:w-1/2 z-0">
+          <img 
+            src={memberPortalBanner} 
+            alt="Member Portal Banner" 
+            className="w-full h-full object-cover opacity-45 md:opacity-85"
+            referrerPolicy="no-referrer"
+          />
+          {/* Subtle overlay on the right to blend back to black */}
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent md:bg-none" />
+        </div>
+        
+        {/* Solid gradient on the left that fades out to the right for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/95 to-slate-950/30 z-0 hidden md:block" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/85 to-transparent z-0 md:hidden" />
+        
+        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
               <Zap className="w-3.5 h-3.5" /> Core Member Portal
