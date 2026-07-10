@@ -94,6 +94,13 @@ export default function MemberPortal({
   const [editingClassBookedCount, setEditingClassBookedCount] = useState(8);
   const [editingClassDay, setEditingClassDay] = useState('Monday');
 
+  // Selected date index in Live Timetable & Interactive Scheduler
+  const [selectedDateIdx, setSelectedDateIdx] = useState(4);
+
+  // Selected month and frequency for Members Counting Graph
+  const [selectedMonth, setSelectedMonth] = useState('Apr');
+  const [selectedFrequency, setSelectedFrequency] = useState('WEEKLY');
+
   // Workout state tracking (checking off exercises!)
   const [completedExercises, setCompletedExercises] = useState<Record<string, boolean>>({});
 
@@ -512,8 +519,11 @@ export default function MemberPortal({
                   <h3 className="text-sm font-display font-extrabold text-slate-800">Members counting</h3>
                   <p className="text-[10px] text-slate-400 font-medium">Weekly active enrollment distribution</p>
                 </div>
-                <button className="text-[10px] font-bold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-full transition-all cursor-pointer inline-flex items-center gap-1 font-mono uppercase">
-                  WEEKLY <ChevronRight className="w-3 h-3 rotate-90" />
+                <button 
+                  onClick={() => setSelectedFrequency(prev => prev === 'WEEKLY' ? 'MONTHLY' : prev === 'MONTHLY' ? 'YEARLY' : 'WEEKLY')}
+                  className="text-[10px] font-bold text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-full transition-all cursor-pointer inline-flex items-center gap-1 font-mono uppercase"
+                >
+                  {selectedFrequency} <ChevronRight className="w-3 h-3 rotate-90" />
                 </button>
               </div>
 
@@ -523,26 +533,55 @@ export default function MemberPortal({
                   {/* Subtle Grid Line */}
                   <div className="absolute inset-x-0 bottom-0 border-b border-slate-100 pointer-events-none"></div>
                   
-                  {[
-                    { name: 'Jan', count: 150, active: false },
-                    { name: 'Feb', count: 200, active: false },
-                    { name: 'Mar', count: 260, active: false },
-                    { name: 'Apr', count: 310, active: true },
-                    { name: 'May', count: 220, active: false },
-                    { name: 'Jun', count: 180, active: false },
-                    { name: 'Jul', count: 240, active: false }
-                  ].map((item, index) => {
-                    const maxCount = 350;
+                  {(() => {
+                    let dataset = [
+                      { name: 'Jan', fullName: 'January', count: 150 },
+                      { name: 'Feb', fullName: 'February', count: 200 },
+                      { name: 'Mar', fullName: 'March', count: 260 },
+                      { name: 'Apr', fullName: 'April', count: 310 },
+                      { name: 'May', fullName: 'May', count: 220 },
+                      { name: 'Jun', fullName: 'June', count: 180 },
+                      { name: 'Jul', fullName: 'July', count: 240 }
+                    ];
+                    if (selectedFrequency === 'MONTHLY') {
+                      dataset = [
+                        { name: 'Jan', fullName: 'January', count: 250 },
+                        { name: 'Feb', fullName: 'February', count: 280 },
+                        { name: 'Mar', fullName: 'March', count: 340 },
+                        { name: 'Apr', fullName: 'April', count: 380 },
+                        { name: 'May', fullName: 'May', count: 320 },
+                        { name: 'Jun', fullName: 'June', count: 290 },
+                        { name: 'Jul', fullName: 'July', count: 310 }
+                      ];
+                    } else if (selectedFrequency === 'YEARLY') {
+                      dataset = [
+                        { name: 'Jan', fullName: 'January', count: 80 },
+                        { name: 'Feb', fullName: 'February', count: 110 },
+                        { name: 'Mar', fullName: 'March', count: 140 },
+                        { name: 'Apr', fullName: 'April', count: 170 },
+                        { name: 'May', fullName: 'May', count: 130 },
+                        { name: 'Jun', fullName: 'June', count: 100 },
+                        { name: 'Jul', fullName: 'July', count: 120 }
+                      ];
+                    }
+                    return dataset;
+                  })().map((item, index) => {
+                    const maxCount = selectedFrequency === 'MONTHLY' ? 400 : 350;
                     const heightPercent = (item.count / maxCount) * 100;
+                    const isActive = item.name === selectedMonth;
                     return (
-                      <div key={index} className="flex-1 flex flex-col items-center group relative z-10 h-full justify-end">
-                        {/* Persistent/Hover Tooltip for Apr */}
-                        {(item.active) && (
+                      <div 
+                        key={index} 
+                        onClick={() => setSelectedMonth(item.name)}
+                        className="flex-1 flex flex-col items-center group relative z-10 h-full justify-end cursor-pointer"
+                      >
+                        {/* Persistent/Hover Tooltip */}
+                        {isActive && (
                           <div className="absolute bottom-[92%] mb-2 flex flex-col items-center pointer-events-none z-30 animate-fade-in whitespace-nowrap">
                             <div className="bg-slate-900 text-white px-3 py-2 rounded-xl text-[10px] font-bold shadow-md border border-slate-800">
-                              <span className="text-slate-300">April</span>
+                              <span className="text-slate-300">{item.fullName}</span>
                               <span className="mx-1.5 text-slate-500">•</span>
-                              <span className="text-blue-400">310 members</span>
+                              <span className="text-blue-400">{item.count} members</span>
                             </div>
                             <div className="w-2.5 h-2.5 bg-slate-900 rotate-45 -mt-1.5 border-r border-b border-slate-900"></div>
                           </div>
@@ -550,20 +589,20 @@ export default function MemberPortal({
                         
                         {/* Bar */}
                         <div 
-                          className={`w-full max-w-[28px] rounded-full transition-all duration-300 relative cursor-pointer ${
-                            item.active 
+                          className={`w-full max-w-[28px] rounded-full transition-all duration-300 relative ${
+                            isActive 
                               ? 'bg-blue-600 hover:bg-blue-500 shadow-sm shadow-blue-500/20' 
                               : 'bg-slate-100 hover:bg-slate-200'
                           }`}
                           style={{ height: `${heightPercent}%` }}
                         >
-                          {item.active && (
+                          {isActive && (
                             <span className="absolute top-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rounded-full opacity-60"></span>
                           )}
                         </div>
                         
                         {/* Label */}
-                        <span className={`text-[10px] font-bold mt-2 font-mono ${item.active ? 'text-blue-600 font-extrabold' : 'text-slate-400'}`}>
+                        <span className={`text-[10px] font-bold mt-2 font-mono ${isActive ? 'text-blue-600 font-extrabold' : 'text-slate-400'}`}>
                           {item.name}
                         </span>
                       </div>
@@ -675,14 +714,15 @@ export default function MemberPortal({
                   { label: 'MAR 28', text: 'Thu' },
                   { label: 'MAR 29', text: 'Fri' },
                   { label: 'MAR 30', text: 'Sat' },
-                  { label: 'APR 27', text: 'Sun', active: true },
+                  { label: 'APR 27', text: 'Sun' },
                   { label: 'APR 28', text: 'Mon' },
                   { label: 'APR 29', text: 'Tue' }
                 ].map((d, idx) => (
                   <button 
                     key={idx}
+                    onClick={() => setSelectedDateIdx(idx)}
                     className={`px-3 py-1 text-[10px] font-semibold rounded-lg shrink-0 transition-all cursor-pointer ${
-                      d.active 
+                      selectedDateIdx === idx 
                         ? 'bg-slate-900 text-white font-bold shadow-xs' 
                         : 'bg-slate-50 hover:bg-slate-100 text-slate-500 border border-slate-200/60'
                     }`}
